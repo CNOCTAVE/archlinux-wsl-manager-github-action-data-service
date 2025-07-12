@@ -31,7 +31,7 @@ try:
             {
                 'name': href.replace('/', ''),
                 'branch': 'wsl', 
-                'docker_brew_archlinux': website
+                'archlinux_wsl': website
             })
     json.dump(archlinux_wsl_list, open(
         'archlinux_wsl_list.json', 'w'), indent=4)
