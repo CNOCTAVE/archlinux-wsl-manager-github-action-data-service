@@ -1,0 +1,25 @@
+name: Get ArchLinux WSL list
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  daily-job:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Get ArchLinux WSL list
+        run: |
+          pip install beautifulsoup4 requests
+          python get_branches.py
+      
+      - name: Upload ArchLinux WSL list
+        run: |
+          current_date=$(date +"%Y%m%d")
+          gh release create $current_date --title "$current_date" --notes "$current_date" --repo $GITHUB_REPOSITORY
+          gh release upload $current_date archlinux_wsl_list.json --repo $GITHUB_REPOSITORY
